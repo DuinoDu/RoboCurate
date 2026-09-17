@@ -21,7 +21,8 @@ PATTERNS=['*.py','requirements*.txt','scripts/*.py','scripts/*.sh','tests/test_*
     'robot/*.urdf','robot/SOURCE.json','robot/meshes/*.STL','warp_progress/*.py',
     'vendor/*.py','vendor/warp_rm/*.py','vendor/warp_rm/LICENSE','vendor/warp_rm/provenance.json',
     'docs/MODELS.md','docs/SOURCE_PACKAGE.md','docs/VALIDATION.md','docs/licensing/*.json','docs/licensing/*.txt',
-    'docs/images/synthetic-demo.png','.github/workflows/*.yml',
+    'docs/images/synthetic-demo.png','docs/images/task-workspace.png',
+    'docs/images/task-cameras.png','docs/images/motion-quality.png','.github/workflows/*.yml',
     'experiments/quality_validation/sources.json','experiments/quality_validation/fetch_sources.py',
     'experiments/quality_validation/upstream.py']
 FORBIDDEN_SUFFIXES={'.mcap','.npz','.pt','.pth','.safetensors','.sqlite','.sqlite3','.zip','.pyc'}

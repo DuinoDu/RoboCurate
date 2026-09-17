@@ -1,3 +1,5 @@
 -r requirements.txt
 pytest>=7,<9
 selenium>=4.20,<5
+# WARP sampler parity checks use SciPy even when torch is not installed.
+scipy==1.15.3

@@ -10,3 +10,5 @@
 - Add a portable synthetic MCAP demo and an end-to-end review/export test with no private recording.
 - Remove machine-specific default recording paths and inventory third-party origins.
 - Provide source-only packaging, download instructions and GitHub Actions tests under Lee-hz/RoboCurate; keep the unresolved base-viewer license review explicit.
+- Show actual G1 camera, robot and stage-model screenshots in the README, with the synthetic example kept in a separate disclosure.
+- Include SciPy in development dependencies so WARP sampler parity checks run on a fresh CI installation.

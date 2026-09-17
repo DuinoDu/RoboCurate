@@ -13,6 +13,21 @@ A local workbench for robot demonstrations: synchronized cameras and motion, exp
 
 Extract the ZIP and follow the instructions below. This is a source distribution for local setup, not a standalone installer. Recordings and model weights are not bundled.
 
+## Interface
+
+The actual RoboCurate workspace reviewing a G1 banana-transfer recording: synchronized camera views, robot-state playback, a ten-point technical score and task-stage evidence from the installed `g1-stage-v3` model. These are direct application screenshots. The recording and model checkpoint used for the screenshots are not bundled.
+
+![RoboCurate: real G1 cameras, three-dimensional robot playback and task-stage evidence](docs/images/task-workspace.png)
+
+<details>
+<summary>Camera detail and motion-quality review</summary>
+
+![Real camera frames and banana-transfer stage evidence](docs/images/task-cameras.png)
+
+![G1 robot-state playback and technical-quality review queue](docs/images/motion-quality.png)
+
+</details>
+
 ## Features
 
 - Review native ROS 2 MCAP recordings using synchronized camera frames, G1 motion and joint curves.
@@ -44,8 +59,6 @@ The server binds to loopback. It is intended for a local operator, not a public 
 
 ## Synthetic demo
 
-![Synthetic MCAP demo; generated diagrams, not robot camera footage](docs/images/synthetic-demo.png)
-
 No laboratory recording or model download is required:
 
 ```bash
@@ -56,6 +69,13 @@ python3 -m venv .venv
 ```
 
 The six-second MCAP contains generated camera diagrams, 41-dimensional state/action data, a controlled arm offset and a deliberate head-camera gap. Every image is labelled **SYNTHETIC DEMO**. It exercises playback, technical checks, review and export; it is not a visual-model benchmark and has no success label.
+
+<details>
+<summary>View the synthetic sample used for trying the interface without recordings</summary>
+
+![Synthetic MCAP sample with generated diagrams](docs/images/synthetic-demo.png)
+
+</details>
 
 Task-stage and WARP inference require appropriate checkpoints in a separate model environment. The source candidate includes their implementation, not pretrained weights or private recordings. See [model setup](docs/MODELS.md).
 

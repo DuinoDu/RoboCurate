@@ -5,7 +5,7 @@
   "publication_ready": false,
   "publication_readiness_scope": "fully_licensed_open_source_release",
   "open_source_license_ready": false,
-  "uploaded_to_github": false,
+  "uploaded_to_github": true,
   "github_target": "Lee-hz/RoboCurate",
   "blockers": [
     {"id": "base_viewer_authorization", "status": "unverified", "inventory": "docs/licensing/base-viewer-files.json", "affected_files": 16}
@@ -14,6 +14,7 @@
   "license_applied_to_unverified_files": false,
   "includes_private_recordings": false,
   "includes_model_weights": false,
+  "includes_real_interface_screenshots": true,
   "demo": "scripts/create_demo.py",
   "rating_schema": {"version": 3, "method_version": 2, "max_score": 10},
   "model_scope": "docs/MODELS.md"
