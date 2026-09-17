@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RoboCurate · Episode Viewer</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:,">
+</head>
+<body data-palette="#2a78d6,#eb6834,#1baf7a,#eda100,#e87ba4,#008300,#4a3aa7,#e34948">
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark"></span>
+    <div>
+      <h1>Episode Viewer</h1>
+      <p class="brand-sub" id="source-name">loading…</p>
+    </div>
+  </div>
+  <div class="topbar-actions">
+    <button class="btn" id="rail-toggle" aria-pressed="true"
+            title="Show or hide the episode list">Episodes</button>
+    <div class="seg" role="group" aria-label="Colour theme">
+      <button data-theme-set="light" title="Light">Light</button>
+      <button data-theme-set="dark" title="Dark">Dark</button>
+    </div>
+  </div>
+</header>
+
+<div class="shell" id="shell">
+<aside class="sidebar" id="sidebar" aria-label="Episode library"></aside>
+<div class="shell-main">
+
+<div id="boot" class="boot">
+  <div class="spinner" aria-hidden="true"></div>
+  <p id="boot-msg">Loading episode cache…</p>
+</div>
+
+<main id="app" hidden>
+
+  <!-- Instruction + headline figures ------------------------------------ -->
+  <section class="instruction-card">
+    <div class="instruction-label">Task instruction</div>
+    <p class="instruction-text" id="instruction">—</p>
+    <div class="instruction-meta" id="instruction-meta"></div>
+  </section>
+
+  <section class="tiles" id="tiles"></section>
+
+  <!-- One filter/transport row scoping every chart below ---------------- -->
+  <section class="transport" id="transport">
+    <div class="transport-controls">
+      <button id="btn-play" class="btn btn-primary" aria-label="Play or pause">
+        <span id="play-glyph">▶</span><span id="play-label">Play</span>
+      </button>
+      <button id="btn-start" class="btn" title="Jump to start">↤</button>
+      <button id="btn-prev" class="btn" title="Previous frame">◀</button>
+      <button id="btn-next" class="btn" title="Next frame">▶</button>
+      <label class="speed">
+        Speed
+        <select id="speed">
+          <option value="0.25">0.25×</option>
+          <option value="0.5">0.5×</option>
+          <option value="1" selected>1×</option>
+          <option value="2">2×</option>
+          <option value="4">4×</option>
+        </select>
+      </label>
+      <div class="clock">
+        <span id="clock-now">0.000</span><span class="clock-sep">/</span><span id="clock-end">0.000</span><span class="clock-unit">s</span>
+      </div>
+      <div class="range-note" id="range-note"></div>
+      <button id="btn-reset-zoom" class="btn" hidden>Reset zoom</button>
+    </div>
+    <div class="timeline" id="timeline">
+      <div class="timeline-bands" id="bands"></div>
+      <canvas id="scrub" class="scrub"></canvas>
+    </div>
+    <p class="hint">Drag on the strip to zoom a range · click a chart to seek · shift-drag to pan</p>
+  </section>
+
+  <!-- Camera + readout on the left, the posed robot beside them ---------- -->
+  <div class="split" id="split">
+    <div class="split-left">
+      <section class="card camera-card">
+        <div class="card-head">
+          <h2>Head camera</h2>
+          <span class="card-sub" id="camera-sub"></span>
+        </div>
+        <div class="camera-bar">
+          <div class="seg" role="group" aria-label="Stereo view" id="stereo-seg">
+            <button data-eye="left" title="Left eye of the side-by-side pair">Left eye</button>
+            <button data-eye="right" title="Right eye of the side-by-side pair">Right eye</button>
+            <button data-eye="" title="The whole recorded frame, both eyes">Full SBS</button>
+          </div>
+          <span class="camera-detect" id="camera-detect"></span>
+        </div>
+        <div class="camera-stage" id="camera-stage">
+          <img id="frame" alt="Head camera frame at the current playhead position">
+          <div class="camera-overlay" id="camera-overlay"></div>
+        </div>
+      </section>
+
+      <section class="card readout-card">
+        <div class="card-head">
+          <h2>State at playhead</h2>
+          <span class="card-sub">measured · commanded</span>
+        </div>
+        <div id="readout" class="readout"></div>
+      </section>
+    </div>
+
+    <div class="r3-host" id="robot-host"></div>
+  </div>
+
+  <!-- Chart sections ------------------------------------------------------ -->
+  <nav class="tabs" id="tabs" role="tablist"></nav>
+  <section id="panels"></section>
+
+</main>
+
+</div><!-- .shell-main -->
+</div><!-- .shell -->
+
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.js" } }
+</script>
+<script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+.venv/
+workspace/
+__pycache__/
+.pytest_cache/
+*.pyc
+
+# Local recordings, exports, and collection-specific reports are not release assets.
+*.mcap
+*.mcap.gz
+*.tar
+*.tar.gz
+*.zip
+*.npz
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm
+*.pt
+*.pth
+*.safetensors
+.env
+.env.*
+!.env.example
+.cache/
+/dist/
+/release/
+/SOURCE_MANIFEST.json
+.mcap_viz_cache/
+/数据检查报告.md
+# Public synthetic fixtures must be kept in an explicitly named fixture directory.
+!tests/fixtures/synthetic/**

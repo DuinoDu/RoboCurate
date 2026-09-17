@@ -1,0 +1,35 @@
+/* Three primary review tasks; detail tools stay available on demand. */
+.details-panel .rating-overview{padding:9px 13px}
+.details-panel .rating-number{margin:2px 0 5px}
+.details-panel .rating-number strong{font-size:25px;letter-spacing:-.5px}
+.details-panel .rating-context{font-size:9px}
+.details-panel .detail-tabs{overflow:visible;position:relative;z-index:5;gap:0}
+.detail-tabs>button{flex:1;padding:11px 6px}
+.detail-more{position:relative;flex:none;margin-left:auto;font-size:11px}
+.detail-more>summary{list-style:none;cursor:pointer;padding:11px 10px;color:var(--muted);white-space:nowrap}
+.detail-more>summary::-webkit-details-marker{display:none}
+.detail-more>summary:after{content:' ▾';font-size:10px}
+.detail-more.active>summary,.detail-more[open]>summary{color:var(--brand-color)}
+.detail-more-menu{position:absolute;right:4px;top:100%;z-index:30;min-width:135px;background:var(--panel-bg);border:1px solid var(--border);border-radius:6px;box-shadow:0 8px 24px #0003;padding:5px}
+.detail-tabs .detail-more-menu button{display:block;width:100%;padding:10px;border:0;border-radius:4px;text-align:left;background:transparent;font-size:11px}
+.detail-tabs .detail-more-menu button:hover,.detail-tabs .detail-more-menu button.active{background:var(--green-bg);color:var(--brand-color)}
+#event-timeline[hidden],#progress-timeline[hidden]{display:none}
+.warp-timeline{display:block;padding-top:7px}
+.stage-timeline-heading{justify-content:space-between;padding:0 7px 5px;color:var(--muted)}
+.warp-timeline .warp-now{font-size:10px}
+.stage-timeline-heading>span:first-child{white-space:nowrap}
+.stage-review-queue h4>span{display:inline-block;font:10px var(--font-mono);color:var(--orange);margin-left:4px}
+.stage-review-queue .stage-review-list{max-height:none;overflow:visible}
+.stage-outcome-note{margin:12px 0;font-size:10px!important}
+.stage-outcome-note strong{font-weight:500;color:var(--text)}
+.stage-evidence-details{border-top:1px solid var(--border);margin-top:16px;padding-top:12px}
+.stage-evidence-details>summary{cursor:pointer;color:var(--muted);font-size:11px}
+.stage-evidence-details h4{font-size:11px;margin:15px 0 8px}
+.stage-evidence-details .stage-probabilities{border:0;margin:0;padding:0}
+.stage-evidence-details .stage-coverage{margin:16px 0;font-size:10px}
+.stage-evidence-details .warp-provenance{opacity:1;color:var(--muted)}
+.warp-panel>.warp-settings:last-child{border-top:1px solid var(--border);border-bottom:0;margin-top:12px;padding-top:12px}
+.warp-settings>summary small{max-width:160px;overflow:hidden;text-overflow:ellipsis;font-family:var(--font-mono)}
+.stage-live{margin-bottom:8px}
+.stage-route{margin-top:14px}
+@media(max-width:600px){.detail-more>summary{padding:11px 7px}.stage-timeline-heading{gap:8px}.warp-timeline .warp-now{white-space:normal;text-align:right}.stage-review-tools select{flex-basis:auto}.stage-review-tools button{flex:none}}

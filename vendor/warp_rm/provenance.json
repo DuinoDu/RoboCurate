@@ -1,0 +1,43 @@
+{
+  "repository": "https://github.com/uynitsuj/WARP-RM",
+  "revision": "26f9894abdaf883af8db78a38e164764e5bf7c00",
+  "license": "MIT",
+  "modifications": [],
+  "files": [
+    {
+      "file": "aggregator.py",
+      "upstream_path": "warp_rm/models/aggregators/transformer.py",
+      "sha256": "d0c678febf551a7ac829b417f679c40eb2a3ed046c34341a8ea868f83e7b77aa"
+    },
+    {
+      "file": "samplers.py",
+      "upstream_path": "warp_rm/data/samplers.py",
+      "sha256": "70ceda37bd88bb8cf6806f0762fc38a6064633d93326b4d3a203c383983c025f"
+    },
+    {
+      "file": "curve_parameterizations.py",
+      "upstream_path": "warp_rm/data/curve_parameterizations.py",
+      "sha256": "dbd6f74f3feda7d5f18736b791d3f8a75a6f08a7fa917e9503c82cf263d45f6e"
+    },
+    {
+      "file": "labelers.py",
+      "upstream_path": "warp_rm/data/labelers.py",
+      "sha256": "6ab29b3e5309abb13e0de8bca5d465d24a660b97293c498415f4e61184621fa4"
+    },
+    {
+      "file": "loss.py",
+      "upstream_path": "warp_rm/core/loss.py",
+      "sha256": "cc82d00e02524f59cd1da74b0e4d9c3eb998ec462b25ca7b2b6a16c967b7e368"
+    },
+    {
+      "file": "ablation.py",
+      "upstream_path": "warp_rm/core/ablation.py",
+      "sha256": "f33c74767ce771b6da14bbdeb81b474cb1745a56c768dc626e3ccf823ae0db14"
+    },
+    {
+      "file": "inference.py",
+      "upstream_path": "warp_rm/visualization/inference.py",
+      "sha256": "8d017e7ee410899507a3978cafd55401b3ed6516f93aed0b13b6bed3da915ffc"
+    }
+  ]
+}

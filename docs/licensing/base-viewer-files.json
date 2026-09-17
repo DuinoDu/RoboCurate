@@ -1,0 +1,118 @@
+{
+  "source": "Initially supplied mcap_viz archive; origin and redistribution authorization are unverified.",
+  "publication_ready": false,
+  "files": [
+    {
+      "path": "catalog.py",
+      "original": "catalog.py",
+      "state": "unchanged",
+      "license_status": "permission_unverified",
+      "sha256": "366036e4642f4088400dde0375f69b835c1e277ba6299b050e9c008395cba14e"
+    },
+    {
+      "path": "urdf.py",
+      "original": "urdf.py",
+      "state": "unchanged",
+      "license_status": "permission_unverified",
+      "sha256": "33df7a451ac61699f9ed5f3909e0d7375d8bac4a1103edbcdf749d79aa5ebcd0"
+    },
+    {
+      "path": "g1_joints.py",
+      "original": "g1_joints.py",
+      "state": "unchanged",
+      "license_status": "permission_unverified",
+      "sha256": "91919927f1117a353b33b275ad40c7b8b7a6b6393c83beb3c88007dc27269923"
+    },
+    {
+      "path": "extract.py",
+      "original": "extract.py",
+      "state": "modified",
+      "license_status": "permission_unverified",
+      "sha256": "0c72725b597b7bc48d46b1aae4436a377e297cbc005ad1319463fe88470dd553"
+    },
+    {
+      "path": "server.py",
+      "original": "server.py",
+      "state": "modified",
+      "license_status": "permission_unverified",
+      "sha256": "c284ff7b52b81332ced420c19b5d9c7f4e6889b3afcb95b71ea88ee13a28e4dd"
+    },
+    {
+      "path": "static/viewer/sidebar.js",
+      "original": "static/sidebar.js",
+      "state": "unchanged",
+      "license_status": "permission_unverified",
+      "sha256": "4bfc15673475a8dafea4aaeea21d471953da8749c9e86f051a6c4ea16cc62f4b"
+    },
+    {
+      "path": "static/viewer/robotpanel.js",
+      "original": "static/robotpanel.js",
+      "state": "unchanged",
+      "license_status": "permission_unverified",
+      "sha256": "773a2bd11ce2d5b17e68a3ba8eb49bbac6ef1e1c23d60be1dbe5f722d8218b3b"
+    },
+    {
+      "path": "static/viewer/robot3d.js",
+      "original": "static/robot3d.js",
+      "state": "modified",
+      "license_status": "permission_unverified",
+      "sha256": "9dd084201614a310ea9be70a4b0d8c9c9b6b6ded14890c890e98c9589eb1fb85"
+    },
+    {
+      "path": "static/viewer/store.js",
+      "original": "static/store.js",
+      "state": "unchanged",
+      "license_status": "permission_unverified",
+      "sha256": "1b4818471ed6c83683879cbcda948aef7803a9da4744fe7213ff44feeea31772"
+    },
+    {
+      "path": "static/viewer/chart.js",
+      "original": "static/chart.js",
+      "state": "unchanged",
+      "license_status": "permission_unverified",
+      "sha256": "91132cbdae7a8b47ee23feda66dc3973c240be08706bc9391742e00df0888c3f"
+    },
+    {
+      "path": "static/viewer/panels.js",
+      "original": "static/panels.js",
+      "state": "unchanged",
+      "license_status": "permission_unverified",
+      "sha256": "4c56722975926669773165ef336d43e87bda1a4723f8d90bd34c8865f4912346"
+    },
+    {
+      "path": "static/viewer/data.js",
+      "original": "static/data.js",
+      "state": "unchanged",
+      "license_status": "permission_unverified",
+      "sha256": "8325dfa13623664ac97a5e7f1ab924a235e27a3324ef2e637ce4ffca9ba6701a"
+    },
+    {
+      "path": "static/viewer/app.js",
+      "original": "static/app.js",
+      "state": "unchanged",
+      "license_status": "permission_unverified",
+      "sha256": "9558c6cb56068ac6249163544afebc5f572f3c1a0adfd2d4b653d5788edea804"
+    },
+    {
+      "path": "static/viewer/style.css",
+      "original": "static/style.css",
+      "state": "unchanged",
+      "license_status": "permission_unverified",
+      "sha256": "92e98e8126bcf643f8299bf72d3931d630991c4afe8be9eb50081903f7a41986"
+    },
+    {
+      "path": "static/viewer/health.js",
+      "original": "static/health.js",
+      "state": "unchanged",
+      "license_status": "permission_unverified",
+      "sha256": "2cf1123729b3f2be40cfb6c9fc520fb58620fafc2027b94a7f2d202099226d98"
+    },
+    {
+      "path": "static/viewer/index.html",
+      "original": "static/index.html",
+      "state": "modified",
+      "license_status": "permission_unverified",
+      "sha256": "262b50204e2dd33ac9f07340d00a30c333aaaa9a2dad0824468b338aec1acb81"
+    }
+  ]
+}
