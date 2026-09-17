@@ -60,7 +60,7 @@ def build(output,label):
         target=source/relative;target.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(path,target)
         manifest['files'].append(dict(path=relative.as_posix(),size=len(raw),sha256=hashlib.sha256(raw).hexdigest()))
     (source/'SOURCE_MANIFEST.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
-    archive=folder.with_suffix('.zip')
+    archive=folder.with_name(folder.name+'.zip')
     if archive.exists():raise FileExistsError(archive)
     with zipfile.ZipFile(archive,'x',compression=zipfile.ZIP_DEFLATED,compresslevel=9) as package:
         for row in manifest['files']:package.write(source/row['path'],'RoboCurate/'+row['path'])
