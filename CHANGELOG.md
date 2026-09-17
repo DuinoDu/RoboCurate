@@ -1,5 +1,10 @@
 # Changes
 
+## v0.1.0-preview.2 — 2026-09-18
+
+- Update the interface gallery with measured pose ghosts, recorded control-target poses and target trajectories, captured directly from the application.
+- Explain the visual overlays and provide a matching source download.
+
 ## v0.1.0-preview.1 — 2026-09-18
 
 - Rename the application to RoboCurate and migrate saved browser preferences.

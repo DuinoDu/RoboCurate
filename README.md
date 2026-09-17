@@ -8,7 +8,7 @@ A local workbench for robot demonstrations: synchronized cameras and motion, exp
 
 ## Download
 
-- [Download the v0.1.0-preview.1 source package](https://github.com/Lee-hz/RoboCurate/releases/download/v0.1.0-preview.1/RoboCurate-v0.1.0-preview.1-source.zip), or open [Releases](https://github.com/Lee-hz/RoboCurate/releases) and select the ZIP under **Assets**.
+- [Download the v0.1.0-preview.2 source package](https://github.com/Lee-hz/RoboCurate/releases/download/v0.1.0-preview.2/RoboCurate-v0.1.0-preview.2-source.zip), or open [Releases](https://github.com/Lee-hz/RoboCurate/releases) and select the ZIP under **Assets**.
 - For the latest source, choose **Code → Download ZIP** on the repository page, or [download main](https://github.com/Lee-hz/RoboCurate/archive/refs/heads/main.zip).
 
 Extract the ZIP and follow the instructions below. This is a source distribution for local setup, not a standalone installer. Recordings and model weights are not bundled.
@@ -17,14 +17,16 @@ Extract the ZIP and follow the instructions below. This is a source distribution
 
 The actual RoboCurate workspace reviewing a G1 banana-transfer recording: synchronized camera views, robot-state playback, a ten-point technical score and task-stage evidence from the installed `g1-stage-v3` model. These are direct application screenshots. The recording and model checkpoint used for the screenshots are not bundled.
 
-![RoboCurate: real G1 cameras, three-dimensional robot playback and task-stage evidence](docs/images/task-workspace.png)
+![RoboCurate: real G1 cameras, recorded pose ghosts, control targets and task-stage evidence](docs/images/task-workspace.png)
+
+The purple ghosts show three measured poses from the preceding five seconds. The cyan overlay shows the recorded control-target pose; dashed curves show target trajectories.
 
 <details>
-<summary>Camera detail and motion-quality review</summary>
+<summary>Pose ghosts, target comparison and camera detail</summary>
+
+![G1 recorded pose ghosts, control-target overlay and technical-quality review](docs/images/motion-quality.png)
 
 ![Real camera frames and banana-transfer stage evidence](docs/images/task-cameras.png)
-
-![G1 robot-state playback and technical-quality review queue](docs/images/motion-quality.png)
 
 </details>
 

@@ -6,7 +6,7 @@
 
 ## 下载项目
 
-- **固定版本**：[下载 v0.1.0-preview.1 源码包](https://github.com/Lee-hz/RoboCurate/releases/download/v0.1.0-preview.1/RoboCurate-v0.1.0-preview.1-source.zip)，也可在 [Releases 页面](https://github.com/Lee-hz/RoboCurate/releases) 的 **Assets** 中下载。
+- **固定版本**：[下载 v0.1.0-preview.2 源码包](https://github.com/Lee-hz/RoboCurate/releases/download/v0.1.0-preview.2/RoboCurate-v0.1.0-preview.2-source.zip)，也可在 [Releases 页面](https://github.com/Lee-hz/RoboCurate/releases) 的 **Assets** 中下载。
 - **最新源码**：项目首页点击 **Code → Download ZIP**，或[直接下载 main 分支](https://github.com/Lee-hz/RoboCurate/archive/refs/heads/main.zip)。
 
 下载后解压，按下方说明启动。这是需要安装依赖的源码包，不是双击安装程序；包内不附带录像或模型权重。
@@ -15,14 +15,16 @@
 
 下图直接截取自当前 RoboCurate，使用 G1 搬运香蕉的真实录像与已安装的 `g1-stage-v3` 模型，展示三路相机、机器人三维回放、10 分制技术评分和任务阶段判断。截图对应的录像和模型权重需要另行配置。
 
-![真实 G1 录像、机器人三维回放和任务阶段分析](docs/images/task-workspace.png)
+![真实 G1 录像、实测姿态残影、控制目标对照和任务阶段分析](docs/images/task-workspace.png)
+
+紫色残影为过去 5 秒中的三个实测姿态，青色叠加模型为录制的控制目标姿态，虚线为目标轨迹。
 
 <details>
-<summary>查看更多：相机细节与运动质检</summary>
+<summary>查看更多：姿态残影、目标对照与相机细节</summary>
+
+![G1 实测姿态残影、控制目标对照和质检问题列表](docs/images/motion-quality.png)
 
 ![三路真实相机与香蕉搬运阶段判断](docs/images/task-cameras.png)
-
-![G1 三维回放和质检问题列表](docs/images/motion-quality.png)
 
 </details>
 

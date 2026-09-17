@@ -3,7 +3,7 @@
 Build a local source package from the app source directory:
 
 ```bash
-python3 scripts/build_source_candidate.py --label v0.1.0-preview.1
+python3 scripts/build_source_candidate.py --label v0.1.0-preview.2
 ```
 
 The builder creates a new directory and ZIP under `dist/`; existing outputs are never overwritten. `SOURCE_MANIFEST.json` records each selected file's size and SHA-256. ZIP CRC and file hashes are verified, with a companion checksum and verification report.
