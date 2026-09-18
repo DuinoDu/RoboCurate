@@ -1,6 +1,6 @@
 {
   "project": "RoboCurate",
-  "release": "v0.1.0-preview.2",
+  "release": "v0.1.0-preview.3",
   "distribution_status": "source_preview",
   "publication_ready": false,
   "publication_readiness_scope": "fully_licensed_open_source_release",
@@ -8,7 +8,12 @@
   "uploaded_to_github": true,
   "github_target": "Lee-hz/RoboCurate",
   "blockers": [
-    {"id": "base_viewer_authorization", "status": "unverified", "inventory": "docs/licensing/base-viewer-files.json", "affected_files": 16}
+    {
+      "id": "base_viewer_authorization",
+      "status": "unverified",
+      "inventory": "docs/licensing/base-viewer-files.json",
+      "affected_files": 16
+    }
   ],
   "proposed_project_license": "Apache-2.0",
   "license_applied_to_unverified_files": false,
@@ -16,6 +21,14 @@
   "includes_model_weights": false,
   "includes_real_interface_screenshots": true,
   "demo": "scripts/create_demo.py",
-  "rating_schema": {"version": 3, "method_version": 2, "max_score": 10},
-  "model_scope": "docs/MODELS.md"
+  "rating_schema": {
+    "version": 3,
+    "method_version": 2,
+    "max_score": 10
+  },
+  "model_scope": "docs/MODELS.md",
+  "release_includes_model_weights": true,
+  "includes_training_source": true,
+  "includes_private_annotations": false,
+  "model_release_manifest": "models/release.json"
 }

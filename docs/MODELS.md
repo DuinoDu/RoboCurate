@@ -14,7 +14,9 @@ The existing development installation uses `g1-stage-v3` for the task “walk to
 
 Missing inputs remain explicit. Both views missing produces no stage output; partial input loss triggers review. Calibrated class confidence is not task-success confidence. “Post-release observation” does not prove the banana is in the basket.
 
-Development checkpoints, annotations, extracted features and private training studies are **not included** in this source candidate. The bundled architecture and synthetic tests do not reproduce the measured task accuracy by themselves. Public checkpoint distribution and a self-contained stage-training dataset/protocol remain separate release work. The local installation's existing checkpoints are unaffected by source packaging.
+The trained **G1 v1/v2/v3 and open-dinov2-pilot heads plus the pinned DINOv2 backbone are published** in the [preview.3 model pack](https://github.com/Lee-hz/RoboCurate/releases/download/v0.1.0-preview.3/RoboCurate-v0.1.0-preview.3-models.zip) (93.68 MB). The source ZIP contains the matching profiles, SHA-256 manifest and installer; the binary weights are a separate Release asset. The original model files are unchanged.
+
+All project training/selection/ablation code is included under `research/`, `warp_progress/` and `scripts/`. Private recordings, annotations, features and reference-fold experiment outputs are excluded. [Training instructions](TRAINING.md) explain the required inputs; source and weights alone do not reproduce the historical accuracy measurement.
 
 ## Optional model environment
 
@@ -24,12 +26,23 @@ From the source directory, using Python 3.10+:
 python3 -m venv workspace/warp-env
 workspace/warp-env/bin/python -m pip install torch==2.8.0 --index-url https://download.pytorch.org/whl/cpu
 workspace/warp-env/bin/python -m pip install -r requirements-warp.txt
-workspace/warp-env/bin/python scripts/warp_prepare_open.py
+python3 scripts/install_models.py
+workspace/warp-env/bin/python scripts/verify_models.py
 ```
 
-The last command downloads only the public, pinned DINOv2 backbone and records its checksums. It does **not** install a compatible stage/temporal head or enable predictions on its own. CPU is the tested configuration; configure a suitable PyTorch build separately for GPU use.
+The installer downloads the public GitHub model pack without login, verifies its archive and per-file hashes, and registers four models. The verifier checks the real encoder and all heads on generated inputs; it is a functional check, not an accuracy benchmark. Start/reload RoboCurate and choose `g1-stage-v3` for the banana-transfer task. CPU is the tested configuration.
 
-If your network requires an HTTP proxy, set `ROBOCURATE_HF_PROXY` for the command. The legacy environment variable is accepted for existing installations. No proxy port is assumed. A Hugging Face login is not needed for this DINOv2 download. The optional `scripts/hf_login.sh` invokes the installed official CLI; it does not store credentials in the source tree.
+If the browser is easier for downloading, save the model ZIP and install it offline:
+
+```bash
+python3 scripts/install_models.py --archive /path/to/RoboCurate-v0.1.0-preview.3-models.zip
+```
+
+Use `--workspace /path/to/workspace` consistently with the application if you choose a nondefault workspace; its model interpreter must be at `warp-env/bin/python`. Reinstallation is idempotent for identical assets and refuses conflicting local profiles or model files. The DINOv2 license is included in the model ZIP.
+
+`scripts/warp_prepare_open.py` remains available for downloading only the backbone from Hugging Face; it does not install the trained heads.
+
+For the optional Hugging Face backbone downloader, set `ROBOCURATE_HF_PROXY` if an HTTP proxy is required. The GitHub model installer uses standard `HTTPS_PROXY` / `HTTP_PROXY` environment variables. The legacy environment variable is accepted for existing installations. No proxy port is assumed. A Hugging Face login is not needed for this DINOv2 download. The optional `scripts/hf_login.sh` invokes the installed official CLI; it does not store credentials in the source tree.
 
 ## WARP training and registration
 
@@ -49,4 +62,4 @@ Installed model assets live under `workspace/warp/models/`, with `profiles.json`
 
 Runtime model tests check causality, missing-input handling, checkpoint round trips, review reasons and export weight alignment using generated fixtures. They require PyTorch; some WARP tests also require SciPy. They neither download weights nor claim task accuracy.
 
-Tests that depend on the private recordings or the external stage-training studies explicitly skip when those inputs are absent. `tests/test_demo.py` remains runnable without private inputs and exercises MCAP parsing, known fault detection, review and an actual training-bundle export.
+Training-helper tests now use the bundled research source. Tests requiring private recordings explicitly skip when those recordings are absent. `tests/test_demo.py` remains runnable without private inputs and exercises MCAP parsing, known fault detection, review and an actual training-bundle export.

@@ -1,3 +1,22 @@
+# Release validation — 2026-09-18
+
+Preview.3 completes source/model distribution; no neural network is retrained and no accuracy improvement is claimed.
+
+| Preview.3 check | Result |
+| --- | --- |
+| Source tests in isolated staging, pinned CPU model environment | 111 passed, 21 explicitly skipped |
+| JavaScript helper tests | 8 test files passed |
+| Installed Release model files | Archive and all per-file SHA-256 hashes verified |
+| Real DINOv2 encoder plus four trained heads | All forward-pass and feature-contract checks passed |
+| v3 inference on one existing G1 recording, with freshly extracted image features | 61 sampled points; stages, probabilities, progress and review flags identical to the original saved output |
+| Installer | Corrupt/unlisted files rejected; repeated installation preserves identical assets and unrelated profiles; differing profiles are refused |
+
+The real-recording check installed the new model ZIP into an isolated workspace and used the existing pinned dependency environment. It did not copy feature caches, modify production results or evaluate new accuracy. The recording itself remains private.
+
+The 21 skips cover absent private recordings, optional downloaded upstream snapshots and the original DINOv3 paper checkpoint. The formerly external v3/v4 training-helper tests now run from the published research source. The automated [GitHub Actions workflow](https://github.com/Lee-hz/RoboCurate/actions) separately installs dependencies in fresh hosted jobs; consult the run for the exact commit.
+
+---
+
 # Candidate validation — 2026-09-17
 
 This release changes interaction, rating units, branding and source packaging. It does not retrain the neural networks or claim improved model accuracy.

@@ -6,14 +6,14 @@
 
 ## 下载项目
 
-- **固定版本**：[下载 v0.1.0-preview.2 源码包](https://github.com/Lee-hz/RoboCurate/releases/download/v0.1.0-preview.2/RoboCurate-v0.1.0-preview.2-source.zip)，也可在 [Releases 页面](https://github.com/Lee-hz/RoboCurate/releases) 的 **Assets** 中下载。
+- **固定版本**：[下载 v0.1.0-preview.3 源码包](https://github.com/Lee-hz/RoboCurate/releases/download/v0.1.0-preview.3/RoboCurate-v0.1.0-preview.3-source.zip)，也可在 [Releases 页面](https://github.com/Lee-hz/RoboCurate/releases) 的 **Assets** 中下载。
 - **最新源码**：项目首页点击 **Code → Download ZIP**，或[直接下载 main 分支](https://github.com/Lee-hz/RoboCurate/archive/refs/heads/main.zip)。
 
-下载后解压，按下方说明启动。这是需要安装依赖的源码包，不是双击安装程序；包内不附带录像或模型权重。
+下载后解压，按下方说明启动。这是需要安装依赖的源码包，不是双击安装程序；源码包不附带录像；配套权重已发布，按下方“安装现有模型”下载即可。首页 **Code → Download ZIP** 下载的源码也能使用同一安装命令。
 
 ## 实际界面
 
-下图直接截取自当前 RoboCurate，使用 G1 搬运香蕉的真实录像与已安装的 `g1-stage-v3` 模型，展示三路相机、机器人三维回放、10 分制技术评分和任务阶段判断。截图对应的录像和模型权重需要另行配置。
+下图直接截取自当前 RoboCurate，使用 G1 搬运香蕉的真实录像与已安装的 `g1-stage-v3` 模型，展示三路相机、机器人三维回放、10 分制技术评分和任务阶段判断。截图对应的录像保留在本地；所用的同一套模型权重已提供下载。
 
 ![真实 G1 录像、实测姿态残影、控制目标对照和任务阶段分析](docs/images/task-workspace.png)
 
@@ -49,6 +49,22 @@ python3 -m venv .venv
 
 演示为程序生成的六秒数据，包含三路带“合成”标识的图像、身体和双手状态、动作目标以及两个已知异常。它用于试用与接口测试，不是真实机器人录像，也不能证明视觉模型效果。
 
+## 安装现有模型
+
+在解压后的源码目录执行（约 94 MB，无需 GitHub 或 Hugging Face 登录）：
+
+```bash
+python3 -m venv workspace/warp-env
+workspace/warp-env/bin/python -m pip install torch==2.8.0 --index-url https://download.pytorch.org/whl/cpu
+workspace/warp-env/bin/python -m pip install -r requirements-warp.txt
+python3 scripts/install_models.py
+workspace/warp-env/bin/python scripts/verify_models.py
+```
+
+包含 DINOv2-S/14 图像骨干、G1 阶段模型 v1/v2/v3 和公开视频 WARP 时序模型。启动或刷新项目，在任务面板选择 **g1-stage-v3** 即可分析相同任务的 G1 录像。模型验证命令检查权重和推理能否运行，不代表新场景准确率。
+
+也可先[用浏览器下载权重包](https://github.com/Lee-hz/RoboCurate/releases/download/v0.1.0-preview.3/RoboCurate-v0.1.0-preview.3-models.zip)，再按[离线安装说明](docs/MODELS.md)安装。[训练代码与复算条件](docs/TRAINING.md)说明如何继续研究。
+
 ## 精简后的操作
 
 - **任务**：五阶段导航、当前模型判断和待复核片段。点击“回看”会播放片段及前后各一秒；“填入审核范围”只填写草稿，加入并保存后才记录。
@@ -66,6 +82,6 @@ python3 -m venv .venv
 
 ## 模型与数据范围
 
-当前数据映射针对 G1 的 29 个身体关节、双手各 6 维及三路相机，不能自动支持任意机器人。已有阶段模型采用 DINOv2 视觉特征、关节状态及变化量、时序网络；详见 [模型说明](docs/MODELS.md)。源码包不附带训练录像或模型权重，未安装模型时可使用技术质检与人工审核。
+当前数据映射针对 G1 的 29 个身体关节、双手各 6 维及三路相机，不能自动支持任意机器人。已有阶段模型采用 DINOv2 视觉特征、关节状态及变化量、时序网络；详见 [模型说明](docs/MODELS.md)。配套权重包包含现有模型，全部训练与研究代码已补入 `research/`；训练录像和标注不公开。未安装模型时可使用技术质检与人工审核。
 
 导出是通用 NPZ/JPEG/JSON 包，保留 `robot-data-studio.v1` 协议标识及现有读取器兼容性。详情、开发测试和限制见 [英文 README](README.md)。

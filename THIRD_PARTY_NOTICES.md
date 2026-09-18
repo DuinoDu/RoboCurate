@@ -19,8 +19,8 @@ The current linear UI icons (`static/workspace-icons.svg`) and project mark are 
 
 ## Optional model dependencies
 
-The public DINOv2-S/14 downloader uses Meta's official [facebook/dinov2-small](https://huggingface.co/facebook/dinov2-small) at revision `ed25f3a31f01632728cabb09d1542f84ab7b0056`. The model card identifies Apache-2.0; its [license](static/licenses/dinov2.txt) is preserved. Weights are not bundled. Downloads record SHA-256 provenance.
+The public DINOv2-S/14 downloader uses Meta's official [facebook/dinov2-small](https://huggingface.co/facebook/dinov2-small) at revision `ed25f3a31f01632728cabb09d1542f84ab7b0056`. The model card identifies Apache-2.0; its [license](static/licenses/dinov2.txt) is preserved. The matching backbone is supplied in the separate Release model pack with its license; the source Git repository does not contain weight binaries. Downloads record SHA-256 provenance.
 
 The original WARP-RM configuration uses DINOv3, whose weights have separate access and license terms. No DINOv3 weights or access credentials are distributed. The DINOv2 method adaptation uses separately trained temporal weights; a DINOv3-trained head is not used with DINOv2 features.
 
-Python dependencies are installed from the requirements files and retain their upstream licenses. Development datasets and private model-training material are not part of this source candidate. [Model scope and setup](docs/MODELS.md) explains which workflows are available without weights.
+Python dependencies are installed from the requirements files and retain their upstream licenses. Development recordings, labels and feature caches are not distributed. Project training source is included; project-trained heads are supplied in the model pack under the same source-preview publication status, without inventing a new repository-wide license. [Model scope and setup](docs/MODELS.md) explains which workflows are available without weights.

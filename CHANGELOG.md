@@ -1,3 +1,11 @@
+## v0.1.0-preview.3 — complete training source and model distribution
+
+- Publish the remaining research/training, calibration, ablation, validation and historical delivery scripts with frozen protocols and a source index.
+- Distribute the exact four installed DINOv2-based models plus the pinned backbone as a separate 93.68 MB model ZIP.
+- Add checksum-verified, conflict-preserving online/offline installation and a real model forward-pass verifier.
+- Exercise the previously external training helpers in source CI. Private recordings, labels, features, credentials and review state remain excluded.
+- No new model training or accuracy improvement is claimed in this packaging release.
+
 # Changes
 
 ## v0.1.0-preview.2 — 2026-09-18

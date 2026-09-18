@@ -10,8 +10,8 @@ from test_core import real_library
 
 
 def study_module():
-    path=Path(__file__).resolve().parents[2]/'research/stage_v4_20260917/train.py'
-    if not path.is_file():pytest.skip('private stage-training study is not bundled with the source candidate')
+    path=Path(__file__).resolve().parents[1]/'research/stage_v4_20260917/train.py'
+    if not path.is_file():pytest.skip('stage-training source is missing')
     spec=importlib.util.spec_from_file_location('v4_study_test',path);mod=importlib.util.module_from_spec(spec);spec.loader.exec_module(mod)
     return mod
 

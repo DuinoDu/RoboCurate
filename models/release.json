@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "release": "v0.1.0-preview.3",
+  "url": "https://github.com/Lee-hz/RoboCurate/releases/download/v0.1.0-preview.3/RoboCurate-v0.1.0-preview.3-models.zip",
+  "size": 93675636,
+  "sha256": "2feeac8f236a6fd4c972e517d70721acb24a5194fb86ea488efd24e7946e7bf2",
+  "profiles_sha256": "cf917b3404b2e035ccb32ca5b342607d21876788c29857ec0800b0284268b572",
+  "manifest": {
+    "version": 1,
+    "release": "v0.1.0-preview.3",
+    "models": [
+      "open-dinov2-pilot",
+      "g1-stage-v1",
+      "g1-stage-v2",
+      "g1-stage-v3"
+    ],
+    "files": [
+      {
+        "path": "dinov2-small-provenance.json",
+        "size": 512,
+        "sha256": "efeacaf930cb618bd0bac60c572d81792d55e37941971c434405b3431c51b18d"
+      },
+      {
+        "path": "dinov2-small/config.json",
+        "size": 547,
+        "sha256": "1809f83e3bdb1609a501a610ad4a742f4fd8ae44d72ca4aa0df52d1f2ac8628d"
+      },
+      {
+        "path": "dinov2-small/model.safetensors",
+        "size": 88249960,
+        "sha256": "ae1e99fcefd534ed978cdeb8326f08030c96e28b7a81ffcbc98a857c84d14be1"
+      },
+      {
+        "path": "g1-stage-v1-af4981f34d97.pt",
+        "size": 1162725,
+        "sha256": "af4981f34d9724a9911cff4a7e134bcdfccde0decfe459ef8ce9b73ca5610caf"
+      },
+      {
+        "path": "g1-stage-v2-b6179aa5befa.pt",
+        "size": 3718277,
+        "sha256": "b6179aa5befa0412e31e2d93927cafa2c7f76368e189d86d32beb59b8412eec1"
+      },
+      {
+        "path": "g1-stage-v3-bfd92eab9d50.pt",
+        "size": 4327685,
+        "sha256": "bfd92eab9d50258a9139e8519fa7f21acd516cae2b41466aff9ec30a8991d52c"
+      },
+      {
+        "path": "licenses/dinov2.txt",
+        "size": 11359,
+        "sha256": "600cc67cc4cb2f5ea317dcfc687ad1c74dc4bec8782bbe9db0afd83513b935b7"
+      },
+      {
+        "path": "open-dinov2-pilot-a17751a7a566.pt",
+        "size": 3658223,
+        "sha256": "a17751a7a566da2a60f976452c2d45a2ceb37142ab8c9e3752ee3904ef4658f4"
+      }
+    ]
+  }
+}

@@ -80,8 +80,8 @@ def test_review_guard_keeps_raw_uncertainty_without_changing_predictions(monkeyp
 
 
 def test_random_walk_soft_targets_no_extrapolation_or_gap_crossing():
-    source=Path(__file__).resolve().parents[2]/'research/stage_v3_20260917/train.py'
-    if not source.is_file():pytest.skip('private stage-training study is not bundled with the source candidate')
+    source=Path(__file__).resolve().parents[1]/'research/stage_v3_20260917/train.py'
+    if not source.is_file():pytest.skip('stage-training source is missing')
     spec=importlib.util.spec_from_file_location('v3_training_test',source)
     study=importlib.util.module_from_spec(spec);spec.loader.exec_module(study)
     y=np.array([-1,0,-1,-1,-1,1,-1]);row=dict(y=y,camera_valid=np.ones((7,2),bool),state_valid=np.ones(7,bool))

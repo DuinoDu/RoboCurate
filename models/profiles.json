@@ -1,0 +1,295 @@
+{
+  "version": 1,
+  "models": [
+    {
+      "id": "open-dinov2-pilot",
+      "label": "WARP 方法适配 · DINOv2 / 公开小样本",
+      "checkpoint": "open-dinov2-pilot-a17751a7a566.pt",
+      "checkpoint_sha256": "a17751a7a566da2a60f976452c2d45a2ceb37142ab8c9e3752ee3904ef4658f4",
+      "backbone_id": "facebook/dinov2-small",
+      "backbone_dir": "dinov2-small",
+      "backbone_revision": "ed25f3a31f01632728cabb09d1542f84ab7b0056",
+      "backbone_sha256": {
+        "config.json": "1809f83e3bdb1609a501a610ad4a742f4fd8ae44d72ca4aa0df52d1f2ac8628d",
+        "model.safetensors": "ae1e99fcefd534ed978cdeb8326f08030c96e28b7a81ffcbc98a857c84d14be1"
+      },
+      "camera": "head",
+      "view": "left",
+      "crop": "squash",
+      "task_scope": "将场景中的瓶子放入容器（公开仿真任务）",
+      "validation_status": "transfer_unvalidated",
+      "domain_note": "公开任务小样本模型：将场景中的瓶子放入容器（公开仿真任务）。当前为 G1 视角迁移试算，尚未验证本地任务判别效果；候选需结合视频复核。",
+      "training_manifest_sha256": "ecb4228da3666552a859aa5941c7e3a18b87eb5ee1d03f0cb66ab64bc791cbc7",
+      "training_step": 1400,
+      "training_feature_contract": {
+        "backbone": "facebook/dinov2-small",
+        "backbone_revision": "ed25f3a31f01632728cabb09d1542f84ab7b0056",
+        "backbone_sha256": {
+          "config.json": "1809f83e3bdb1609a501a610ad4a742f4fd8ae44d72ca4aa0df52d1f2ac8628d",
+          "model.safetensors": "ae1e99fcefd534ed978cdeb8326f08030c96e28b7a81ffcbc98a857c84d14be1"
+        },
+        "camera": "top_camera-images-rgb",
+        "view": "full",
+        "crop": "squash",
+        "image_size": 224,
+        "normalization": "imagenet",
+        "fps": 30,
+        "feature_stride": 3,
+        "dimension": 384,
+        "decoder": "OpenCV-RGB",
+        "resize": "OpenCV",
+        "version": 1
+      }
+    },
+    {
+      "backbone_id": "facebook/dinov2-small",
+      "backbone_dir": "dinov2-small",
+      "backbone_revision": "ed25f3a31f01632728cabb09d1542f84ab7b0056",
+      "backbone_sha256": {
+        "config.json": "1809f83e3bdb1609a501a610ad4a742f4fd8ae44d72ca4aa0df52d1f2ac8628d",
+        "model.safetensors": "ae1e99fcefd534ed978cdeb8326f08030c96e28b7a81ffcbc98a857c84d14be1"
+      },
+      "camera": "head",
+      "view": "left",
+      "crop": "squash",
+      "id": "g1-stage-v1",
+      "kind": "stage_progress",
+      "label": "G1 香蕉搬运 · 双视角阶段模型（研究版）",
+      "checkpoint": "g1-stage-v1-af4981f34d97.pt",
+      "checkpoint_sha256": "af4981f34d9724a9911cff4a7e134bcdfccde0decfe459ef8ce9b73ca5610caf",
+      "task_id": "g1_banana_left_table_to_right_basket",
+      "cameras": [
+        "head",
+        "right_wrist"
+      ],
+      "validation_status": "same_session_provisional_annotations",
+      "task_scope": "G1：左桌抓取香蕉模型，搬到右桌，放入篮子。仅适用相同录制设置。",
+      "domain_note": "针对香蕉搬运训练；5 段留出录像的研究标注上阶段识别准确率 90.0%。独立人工验收与跨场景能力尚未验证；最终入篮需查看视频确认。",
+      "architecture": {
+        "views": 2,
+        "temporal": false,
+        "width": 96,
+        "context": 8
+      },
+      "annotation_sha256": "daad61f923cb7958d4928ab82cff5a81f0171cadb5bd26a79862c9c7a0da57cb",
+      "protocol_sha256": "d1148a6ee776483361768f4d3891c94e62d7e7128df26eb9d51263b5a9368f7f",
+      "test_report_sha256": "1f09ad1dc5d857647f244694be60ebc6185f1f6153a957fb307b9401353162e2"
+    },
+    {
+      "backbone_id": "facebook/dinov2-small",
+      "backbone_dir": "dinov2-small",
+      "backbone_revision": "ed25f3a31f01632728cabb09d1542f84ab7b0056",
+      "backbone_sha256": {
+        "config.json": "1809f83e3bdb1609a501a610ad4a742f4fd8ae44d72ca4aa0df52d1f2ac8628d",
+        "model.safetensors": "ae1e99fcefd534ed978cdeb8326f08030c96e28b7a81ffcbc98a857c84d14be1"
+      },
+      "camera": "head",
+      "view": "left",
+      "crop": "squash",
+      "id": "g1-stage-v2",
+      "kind": "stage_progress",
+      "stage_version": 2,
+      "label": "G1 香蕉搬运 · 多模态时序模型 v2（研究版）",
+      "checkpoint": "g1-stage-v2-b6179aa5befa.pt",
+      "checkpoint_sha256": "b6179aa5befa0412e31e2d93927cafa2c7f76368e189d86d32beb59b8412eec1",
+      "task_id": "g1_banana_left_table_to_right_basket",
+      "cameras": [
+        "head",
+        "right_wrist"
+      ],
+      "state_contract": {
+        "version": 1,
+        "channels": [
+          {
+            "key": "state.q",
+            "names": [
+              "left_hip_pitch",
+              "left_hip_roll",
+              "left_hip_yaw",
+              "left_knee",
+              "left_ankle_pitch",
+              "left_ankle_roll",
+              "right_hip_pitch",
+              "right_hip_roll",
+              "right_hip_yaw",
+              "right_knee",
+              "right_ankle_pitch",
+              "right_ankle_roll",
+              "waist_yaw",
+              "waist_roll",
+              "waist_pitch",
+              "left_shoulder_pitch",
+              "left_shoulder_roll",
+              "left_shoulder_yaw",
+              "left_elbow",
+              "left_wrist_roll",
+              "left_wrist_pitch",
+              "left_wrist_yaw",
+              "right_shoulder_pitch",
+              "right_shoulder_roll",
+              "right_shoulder_yaw",
+              "right_elbow",
+              "right_wrist_roll",
+              "right_wrist_pitch",
+              "right_wrist_yaw"
+            ],
+            "unit": "rad"
+          },
+          {
+            "key": "hand.left.state_q",
+            "names": [
+              "thumb",
+              "thumb_aux",
+              "index",
+              "middle",
+              "ring",
+              "pinky"
+            ],
+            "unit": "0=open 1=closed"
+          },
+          {
+            "key": "hand.right.state_q",
+            "names": [
+              "thumb",
+              "thumb_aux",
+              "index",
+              "middle",
+              "ring",
+              "pinky"
+            ],
+            "unit": "0=open 1=closed"
+          }
+        ],
+        "dimension": 41,
+        "alignment": "latest_at_or_before",
+        "max_age_ns": 100000000
+      },
+      "modalities": [
+        "vision",
+        "measured_joint_state"
+      ],
+      "validation_status": "same_session_development_cv_provisional_annotations",
+      "task_scope": "G1：左桌抓取香蕉模型，搬到右桌，放入篮子。仅适用相同录制设置。",
+      "domain_note": "融合双视角、身体与手部状态及近期历史；现有录像五折开发验证宏 F1 93.7%。独立新录像和跨场景能力尚未验证，最终入篮需查看视频确认。",
+      "architecture": {
+        "temporal": true,
+        "stage_tokens": true,
+        "use_state": true,
+        "width": 96,
+        "context": 8
+      },
+      "annotation_sha256": "daad61f923cb7958d4928ab82cff5a81f0171cadb5bd26a79862c9c7a0da57cb",
+      "protocol_sha256": "4cbc41adcd68e81c8d06de777fb748d3d68ac1050bb9a4c447b3a8d4bacfbcbc",
+      "test_report_sha256": "3d54d9322ab26e1c3bae6d3a17af11cace78ddd80c023b0c2608111fe62f145f"
+    },
+    {
+      "backbone_id": "facebook/dinov2-small",
+      "backbone_dir": "dinov2-small",
+      "backbone_revision": "ed25f3a31f01632728cabb09d1542f84ab7b0056",
+      "backbone_sha256": {
+        "config.json": "1809f83e3bdb1609a501a610ad4a742f4fd8ae44d72ca4aa0df52d1f2ac8628d",
+        "model.safetensors": "ae1e99fcefd534ed978cdeb8326f08030c96e28b7a81ffcbc98a857c84d14be1"
+      },
+      "camera": "head",
+      "view": "left",
+      "crop": "squash",
+      "id": "g1-stage-v3",
+      "kind": "stage_progress",
+      "stage_version": 3,
+      "label": "G1 香蕉搬运 · 运动感知模型 v3（研究版）",
+      "checkpoint": "g1-stage-v3-bfd92eab9d50.pt",
+      "checkpoint_sha256": "bfd92eab9d50258a9139e8519fa7f21acd516cae2b41466aff9ec30a8991d52c",
+      "task_id": "g1_banana_left_table_to_right_basket",
+      "cameras": [
+        "head",
+        "right_wrist"
+      ],
+      "state_contract": {
+        "version": 1,
+        "channels": [
+          {
+            "key": "state.q",
+            "names": [
+              "left_hip_pitch",
+              "left_hip_roll",
+              "left_hip_yaw",
+              "left_knee",
+              "left_ankle_pitch",
+              "left_ankle_roll",
+              "right_hip_pitch",
+              "right_hip_roll",
+              "right_hip_yaw",
+              "right_knee",
+              "right_ankle_pitch",
+              "right_ankle_roll",
+              "waist_yaw",
+              "waist_roll",
+              "waist_pitch",
+              "left_shoulder_pitch",
+              "left_shoulder_roll",
+              "left_shoulder_yaw",
+              "left_elbow",
+              "left_wrist_roll",
+              "left_wrist_pitch",
+              "left_wrist_yaw",
+              "right_shoulder_pitch",
+              "right_shoulder_roll",
+              "right_shoulder_yaw",
+              "right_elbow",
+              "right_wrist_roll",
+              "right_wrist_pitch",
+              "right_wrist_yaw"
+            ],
+            "unit": "rad"
+          },
+          {
+            "key": "hand.left.state_q",
+            "names": [
+              "thumb",
+              "thumb_aux",
+              "index",
+              "middle",
+              "ring",
+              "pinky"
+            ],
+            "unit": "0=open 1=closed"
+          },
+          {
+            "key": "hand.right.state_q",
+            "names": [
+              "thumb",
+              "thumb_aux",
+              "index",
+              "middle",
+              "ring",
+              "pinky"
+            ],
+            "unit": "0=open 1=closed"
+          }
+        ],
+        "dimension": 41,
+        "alignment": "latest_at_or_before",
+        "max_age_ns": 100000000
+      },
+      "modalities": [
+        "vision",
+        "measured_joint_state"
+      ],
+      "validation_status": "iterated_same_session_development_cv_provisional_annotations",
+      "task_scope": "G1：左桌抓取香蕉模型，搬到右桌，放入篮子。仅适用相同录制设置。",
+      "domain_note": "运动感知网络；现有录像五折开发验证宏 F1 95.1%。反复使用同场景开发数据，独立新录像和跨场景能力尚未验证；最终入篮需人工确认。",
+      "architecture": {
+        "width": 96,
+        "context": 8,
+        "use_state": true,
+        "architecture": "motion"
+      },
+      "annotation_sha256": "daad61f923cb7958d4928ab82cff5a81f0171cadb5bd26a79862c9c7a0da57cb",
+      "protocol_sha256": "f99d73bd64c7eb72df86912513fc65cbeaf8036acea65ba9e3005ca6feead656",
+      "test_report_sha256": "f54a7c225e71d278e80525201615c03c0ead5366e0080775caee7b91060875b2",
+      "review_guard_enabled": true,
+      "review_guard_report_sha256": "315235a9ad6948da681150441cb8750d6918c988ef1662d641180b0bf3c4cfe6",
+      "classifier_source_sha256": "623f0e03710c819b0169741b393e76a387d6d5f33818472e111c33086e50ab9d"
+    }
+  ]
+}
