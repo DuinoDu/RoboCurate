@@ -85,3 +85,9 @@ workspace/warp-env/bin/python scripts/verify_models.py
 当前数据映射针对 G1 的 29 个身体关节、双手各 6 维及三路相机，不能自动支持任意机器人。已有阶段模型采用 DINOv2 视觉特征、关节状态及变化量、时序网络；详见 [模型说明](docs/MODELS.md)。配套权重包包含现有模型，全部训练与研究代码已补入 `research/`；训练录像和标注不公开。未安装模型时可使用技术质检与人工审核。
 
 导出是通用 NPZ/JPEG/JSON 包，保留 `robot-data-studio.v1` 协议标识及现有读取器兼容性。详情、开发测试和限制见 [英文 README](README.md)。
+
+## 项目贡献者
+
+- [wangyian123](https://github.com/wangyian123)
+
+详见[贡献者名单](CONTRIBUTORS.md)。

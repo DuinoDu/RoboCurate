@@ -9,7 +9,7 @@ import shutil
 import zipfile
 
 APP=Path(__file__).resolve().parents[1]
-ROOT_FILES=['.gitignore','README.md','README.zh-CN.md','CONTRIBUTING.md','SECURITY.md',
+ROOT_FILES=['.gitignore','README.md','README.zh-CN.md','CONTRIBUTING.md','CONTRIBUTORS.md','SECURITY.md',
     'CHANGELOG.md','LICENSE_STATUS.md','THIRD_PARTY_NOTICES.md','OPEN_SOURCE_READINESS.md',
     'INTERACTION_UPGRADE.md','RELEASE_STATUS.json','start.sh','pytest.ini']
 PATTERNS=['*.py','requirements*.txt','scripts/*.py','scripts/*.sh','tests/test_*.py',

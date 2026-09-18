@@ -112,3 +112,9 @@ node --test tests/*.test.mjs
 Synthetic end-to-end tests generate MCAP, inspect known faults and export a reviewed clip. Full model tests require model dependencies. Historical integration tests are explicitly skipped when the private development recordings are absent; skips are not evidence of real-data evaluation.
 
 See [contributing](CONTRIBUTING.md), [changes](CHANGELOG.md), [validation scope](docs/VALIDATION.md), [source packaging](docs/SOURCE_PACKAGE.md), [publication status](RELEASE_STATUS.json), and [security scope](SECURITY.md). Raw recordings, review databases, browser profiles, login caches and model weights do not belong in the source repository.
+
+## Contributors
+
+- [wangyian123](https://github.com/wangyian123)
+
+See the [contributors list](CONTRIBUTORS.md).
