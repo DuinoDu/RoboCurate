@@ -111,7 +111,6 @@ function setSidebarCollapsed(collapsed, persist = true) {
   const button = $('#sidebar-toggle');
   if (button) {
     const label = collapsed ? '展开侧栏' : '收起侧栏';
-    button.innerHTML = `<svg class="sidebar-control-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="/sidebar-control.svg#panel"/></svg><span class="sidebar-toggle-label">${label}</span>`;
     button.setAttribute('aria-expanded',String(!collapsed));
     button.setAttribute('aria-label',label);
     button.title = label + ' · Ctrl+\\';
@@ -1479,6 +1478,31 @@ const actions = {
   },
   "toggle-sidebar": toggleSidebar,
   import: importDialog,
+  "rescan-sources": async () => {
+    const button = $("#source-refresh");
+    if (button) {
+      button.disabled = true;
+      button.dataset.busy = "1";
+    }
+    try {
+      const r = await api("/api/roots/rescan", {});
+      await refresh();
+      const changes = [
+        r.added ? `新增 ${r.added} 条` : "",
+        r.removed ? `移除 ${r.removed} 条` : "",
+      ].filter(Boolean);
+      toast(
+        `已重新扫描 ${r.roots.length} 个数据目录：${changes.join(" · ") || "没有变化"}。` +
+          (r.missing.length ? ` ${r.missing.length} 个目录不可用。` : ""),
+        r.missing.length > 0,
+      );
+    } finally {
+      if (button) {
+        button.disabled = false;
+        delete button.dataset.busy;
+      }
+    }
+  },
   "close-dialog": () => $("#dialog").close(),
   "confirm-import": async () => {
     const button = $('[data-action="confirm-import"]');

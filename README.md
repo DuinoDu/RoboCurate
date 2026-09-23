@@ -57,7 +57,13 @@ The script creates `.venv` and installs application dependencies on first run. O
 ./start.sh /path/to/recordings
 ```
 
-The server binds to loopback. It is intended for a local operator, not a public multi-user service. Recordings are read-only; caches, reviews and exports are stored in `workspace/`.
+`start.sh` serves the app to your local network by default, so you can open it from another computer at the address printed on startup. There is no authentication and the app reads local paths the operator names, so only run it on a trusted network — never on a public interface. To keep it on this machine only:
+
+```bash
+./start.sh --local
+```
+
+`ROBOCURATE_HOST` and `--host` set the bind address explicitly; `--port`/`ROBOCURATE_PORT` change the port. It is intended for a local operator, not a public multi-user service. Recordings are read-only; caches, reviews and exports are stored in `workspace/`.
 
 ## Install the trained models
 

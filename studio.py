@@ -28,6 +28,7 @@ from trajectories import build_trajectories, VERSION as TRAJECTORY_VERSION
 from progress_service import ProgressService
 
 APP=Path(__file__).resolve().parent
+ALLOW_REMOTE=False  # set by main() when bound beyond loopback
 
 
 class StudioLibrary(viewer.Library):
@@ -188,6 +189,26 @@ class StudioLibrary(viewer.Library):
         return dict(episodes=episodes,roots=[str(p) for p in self.roots],workspace=str(self.workspace),
                     counts=dict(total=len(episodes),reviewed=sum(bool(e['review']['grade']) for e in episodes),
                                 ready=sum(e['cache']=='ready' for e in episodes),success=sum(e['outcome'] is True for e in episodes)))
+
+    def rescan(self):
+        """Re-read every known root so recordings written since startup appear.
+
+        `add_root` is idempotent, so re-scanning merges new files; episodes whose
+        file has since been deleted are dropped so the list keeps matching disk.
+        """
+        before=set(self.refs);missing=[]
+        for path in list(self.roots):
+            try:self.add_root(path)
+            except OSError as e:missing.append(f'{path}：{e}')
+        with self._lock:
+            gone=[ep for ep,ref in self.refs.items() if not ref.path.exists()]
+            for ep in gone:
+                for memo in (self.refs,self.resident,self.probes,self.qcs,
+                             self.diagnostics_memo,self.reference_memo,self.trajectory_memo):
+                    memo.pop(ep,None)
+            if gone:self.order=[ep for ep in self.order if ep not in set(gone)]
+            if self.default_id not in self.refs:self.default_id=self.order[0] if self.order else None
+        return dict(added=len(set(self.refs)-before),removed=len(gone),missing=missing,total=len(self.order))
 
     def frame_at(self,ep,cam,seconds):
         ref=self.ref(ep);info=self.info(ref)
@@ -372,9 +393,13 @@ class Handler(viewer.Handler):
         return data
 
     def _local(self):
+        # Same-origin is always required. The Host allowlist is only lifted
+        # when the operator asked for a non-loopback bind (--host).
         host=self.headers.get('Host','').split(':')[0]
         origin=self.headers.get('Origin')
-        if host not in ('127.0.0.1','localhost') or (origin and urlparse(origin).netloc!=self.headers.get('Host')):
+        if origin and urlparse(origin).netloc!=self.headers.get('Host'):
+            self._json({'error':'仅允许同源访问'},status=403);return False
+        if not ALLOW_REMOTE and host not in ('127.0.0.1','localhost'):
             self._json({'error':'仅允许本地同源访问'},status=403);return False
         return True
 
@@ -388,6 +413,12 @@ class Handler(viewer.Handler):
                 found=lib.add_root(path)
                 lib.store.set_setting('roots',[str(p) for p in lib.roots])
                 return self._json(dict(**lib.to_json(),added=len(found)))
+            if route=='/api/roots/rescan':
+                if not lib.roots:raise ValueError('还没有添加数据目录')
+                result=lib.rescan()
+                if result['missing'] and len(result['missing'])==len(lib.roots):
+                    raise ValueError('；'.join(result['missing']))
+                return self._json(dict(**result,roots=[str(p) for p in lib.roots]))
             if route=='/api/prepare':
                 ep=body.get('ep') or lib.default_id
                 return self._json(dict(**lib.prepare(ep,rebuild=bool(body.get('rebuild'))),ep=ep))
@@ -477,7 +508,10 @@ class Handler(viewer.Handler):
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('paths',nargs='*',type=Path)
     ap.add_argument('--port',type=int,default=8421);ap.add_argument('--workspace',type=Path,default=APP/'workspace')
+    ap.add_argument('--host',default='127.0.0.1',help='bind address; 0.0.0.0 exposes the app to the local network')
     ap.add_argument('--analyze',action='store_true');args=ap.parse_args()
+    global ALLOW_REMOTE
+    ALLOW_REMOTE=args.host not in ('127.0.0.1','localhost','::1')
     lib=StudioLibrary(args.workspace.resolve())
     paths=args.paths or lib.store.setting('roots',[])
     for path in paths:
@@ -490,9 +524,11 @@ def main():
     if args.analyze:
         for ep in lib.order:lib.prepare(ep)
     handler=partial(Handler,library=lib,robot=robot)
-    with viewer.ThreadingHTTPServer(('127.0.0.1',args.port),handler) as http:
+    with viewer.ThreadingHTTPServer((args.host,args.port),handler) as http:
         lib.recover_jobs()
-        print(f'RoboCurate: http://127.0.0.1:{args.port} · {len(lib.order)} records',flush=True)
+        shown='127.0.0.1' if args.host in ('127.0.0.1','0.0.0.0') else args.host
+        print(f'RoboCurate: http://{shown}:{args.port} · {len(lib.order)} records',flush=True)
+        if ALLOW_REMOTE:print(f'监听 {args.host}：同一局域网的其他机器可访问，且没有任何身份验证。',flush=True)
         try:http.serve_forever()
         except KeyboardInterrupt:pass
         finally:lib.progress_service.close()
