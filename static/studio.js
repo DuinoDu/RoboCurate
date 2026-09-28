@@ -1,3 +1,4 @@
+import { renderDevices, stopDevices, updateHubBanner } from "./devices.js?v=20260928-hub";
 import { latestPoint, recordedGhosts } from "./trajectory-data.mjs";
 import { EpisodeData } from "./viewer/data.js";
 import { ReviewTools } from "./review-tools.js";
@@ -211,6 +212,7 @@ async function refresh() {
         : `${catalog.roots.length} 个本地数据源`;
     $("#source-name").title = catalog.roots.join("\n");
     $("#service-status").innerHTML = '<i class="local-dot"></i> 服务已连接';
+    updateHubBanner({ api, toast });
     for (const id of selected)
       if (!catalog.episodes.some((e) => e.id === id)) selected.delete(id);
     if (page === "library" && $("#episode-rows")) updateLibrary();
@@ -1966,6 +1968,8 @@ async function route() {
   reviewTools?.destroy();
   reviewTools = null;
   reviewToken++;
+  stopDevices();
+  $("#main").onclick = null;
   const [view, id] = location.hash.slice(1).split("/");
   page = view || "library";
   $$("[data-nav]").forEach(a=>{
@@ -1978,6 +1982,7 @@ async function route() {
       library: "数据工作台",
       review: "记录审核",
       exports: "导出中心",
+      devices: "设备管理",
       rules: "分级与质检规则",
       guide: "使用指南",
     }[page] || "数据工作台";
@@ -1985,6 +1990,7 @@ async function route() {
     if (page === "review") renderReview(id);
     else if (page === "rules") await renderRules();
     else if (page === "exports") renderExports();
+    else if (page === "devices") await renderDevices($("#main"), { api, toast });
     else if (page === "guide") renderGuide();
     else renderLibrary();
     window.scrollTo(0, 0);

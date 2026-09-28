@@ -17,6 +17,8 @@ import uuid
 import numpy as np
 from mcap.reader import make_reader
 import server as viewer
+import catalog
+import hub_client
 from extract import CACHE_VERSION
 from quality import probe, assess, DEFAULT_RULES, RULE_LABELS
 from storage import Store, Conflict, now
@@ -209,6 +211,33 @@ class StudioLibrary(viewer.Library):
             if gone:self.order=[ep for ep in self.order if ep not in set(gone)]
             if self.default_id not in self.refs:self.default_id=self.order[0] if self.order else None
         return dict(added=len(set(self.refs)-before),removed=len(gone),missing=missing,total=len(self.order))
+
+    def merge_paths(self,root,paths):
+        """Re-scan only the given sub-trees (sessions a hub just synced) of a known root.
+
+        A full `rescan` walks every episode ever mirrored; the hub reports which
+        session changed, so only that directory is read again. Episodes that
+        vanished from a re-read sub-tree (moved to the hub's trash) are dropped.
+        """
+        root=Path(root).resolve();added=removed=0
+        for sub in {Path(p).resolve() for p in paths}:
+            if root not in sub.parents and sub!=root:continue
+            found=catalog.scan(sub,base=root) if sub.is_dir() else []
+            ids={r.id for r in found}
+            with self._lock:
+                for ref in found:
+                    if ref.id not in self.refs:self.order.append(ref.id);added+=1
+                    self.refs[ref.id]=ref
+                gone=[ep for ep,ref in self.refs.items() if ep not in ids and (sub in ref.path.parents) and not ref.path.exists()]
+                for ep in gone:
+                    for memo in (self.refs,self.resident,self.probes,self.qcs,
+                                 self.diagnostics_memo,self.reference_memo,self.trajectory_memo):
+                        memo.pop(ep,None)
+                removed+=len(gone)
+                everything=[self.refs[i] for i in self.order if i in self.refs]
+                self.order=[r.id for r in catalog.sort_episodes(everything)]
+                if self.default_id not in self.refs:self.default_id=self.order[0] if self.order else None
+        return dict(added=added,removed=removed,total=len(self.order))
 
     def frame_at(self,ep,cam,seconds):
         ref=self.ref(ep);info=self.info(ref)
@@ -403,8 +432,22 @@ class Handler(viewer.Handler):
             self._json({'error':'仅允许本地同源访问'},status=403);return False
         return True
 
+    def _hub(self,method):
+        """`/api/hub/*` → collection-hub admin API (device page). Only non-destructive
+        actions plus the two-step (preview → confirm code) device cleanup are forwarded."""
+        parsed=urlparse(self.path);rest=parsed.path[len('/api/hub/'):]
+        body=None
+        if method=='POST':
+            if not hub_client.post_allowed(rest):return self._json({'error':'不支持的设备操作'},status=404)
+            body=self._body_json()
+        status,data=hub_client.forward(method,rest,parsed.query,body)
+        return self._json(data,status=status,cache='no-store')
+
     def do_POST(self):
         if not self._local():return
+        if urlparse(self.path).path.startswith('/api/hub/'):
+            try:return self._hub('POST')
+            except (ValueError,TypeError) as e:return self._json({'error':str(e)},status=400)
         try:
             route=urlparse(self.path).path;body=self._body_json();lib=self.library
             if route=='/api/roots':
@@ -455,6 +498,7 @@ class Handler(viewer.Handler):
         if not self._local():return
         try:
             parsed=urlparse(self.path);route=parsed.path;qs=parse_qs(parsed.query);lib=self.library
+            if route.startswith('/api/hub/'):return self._hub('GET')
             if route=='/api/health':return self._json(dict(ok=True,app='RoboCurate',workspace=str(lib.workspace),episodes=len(lib.order)))
             if route in ('/api/meta','/api/series'):
                 ep=self._episode(parsed.query)
@@ -509,6 +553,8 @@ def main():
     ap=argparse.ArgumentParser();ap.add_argument('paths',nargs='*',type=Path)
     ap.add_argument('--port',type=int,default=8421);ap.add_argument('--workspace',type=Path,default=APP/'workspace')
     ap.add_argument('--host',default='127.0.0.1',help='bind address; 0.0.0.0 exposes the app to the local network')
+    ap.add_argument('--hub-url',default=os.environ.get('ROBOCURATE_HUB_URL','http://127.0.0.1:8423'),
+                    help='collection-hub admin API; empty disables the device page and incremental sync scans')
     ap.add_argument('--analyze',action='store_true');args=ap.parse_args()
     global ALLOW_REMOTE
     ALLOW_REMOTE=args.host not in ('127.0.0.1','localhost','::1')
@@ -524,6 +570,8 @@ def main():
     if args.analyze:
         for ep in lib.order:lib.prepare(ep)
     handler=partial(Handler,library=lib,robot=robot)
+    hub_client.configure(args.hub_url)
+    if args.hub_url:hub_client.start_follower(lib)
     with viewer.ThreadingHTTPServer((args.host,args.port),handler) as http:
         lib.recover_jobs()
         shown='127.0.0.1' if args.host in ('127.0.0.1','0.0.0.0') else args.host

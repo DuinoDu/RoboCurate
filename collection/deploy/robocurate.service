@@ -1,0 +1,16 @@
+# RoboCurate as a user-level service (survives reboots with lingering enabled).
+#   cp collection/deploy/robocurate.service ~/.config/systemd/user/
+#   systemctl --user daemon-reload && systemctl --user enable --now robocurate
+# Data roots come from the workspace database (add them in the UI); pass paths after start.sh to override.
+[Unit]
+Description=RoboCurate review workbench
+After=network-online.target collection-hub.service
+
+[Service]
+WorkingDirectory=%h/ws/RoboCurate
+ExecStart=%h/ws/RoboCurate/start.sh
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target

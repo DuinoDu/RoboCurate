@@ -99,3 +99,7 @@ workspace/warp-env/bin/python scripts/verify_models.py
 - [wangyian123](https://github.com/wangyian123)
 
 详见[贡献者名单](CONTRIBUTORS.md)。
+
+## 设备管理与数据同步
+
+`collection/` 下的 collection-hub（存储服务器）和 collection-node（每台采集设备）负责采集设备在线/录制状态、双端磁盘预警和自动同步，RoboCurate 的“设备管理”页展示并控制它们。部署与规则见 [collection/README.zh-CN.md](collection/README.zh-CN.md)。

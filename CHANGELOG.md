@@ -1,3 +1,12 @@
+## Unreleased — device management and sync
+
+- Add collection-node (stdlib agent for recording devices) and collection-hub (separate service on the storage server): device online and recording state, disk levels for devices and the server, anomaly alerts with an optional webhook.
+- Recording state comes from the recording tree (`mcap/__RECORDING__` and MCAP growth); the PICO server's `recorder.active` is only compared, because it stays true after a recorder crash and reads false for a recorder orphaned by a server restart.
+- Pull finished episodes with rsync over SSH (read-only rrsync on the device): never while a device records, after an idle period or when marked off-shift, with a shared bandwidth cap while any device records, a free-space reserve, per-file verification, and a trash folder for episodes deleted on the device.
+- Optional, disabled-by-default node capabilities: power off after everything is synced, and delete already verified data on the device after a preview and confirmation code.
+- RoboCurate: 设备管理 page, global disk banner, `/api/hub/*` proxy, incremental re-scan of synced sessions, a `device` field from the mirror layout, and task/user names taken from the episode directory when the sidecar disagrees.
+- Add a user-level systemd unit for RoboCurate.
+
 ## v0.1.0-preview.3 — complete training source and model distribution
 
 - Publish the remaining research/training, calibration, ablation, validation and historical delivery scripts with frozen protocols and a source index.

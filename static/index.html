@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="workspace.css?v=20260916-full-model-v6">
   <link rel="stylesheet" href="progress.css?v=20260917-stage-evidence">
   <link rel="stylesheet" href="simplify.css?v=20260917-ten-point">
+  <link rel="stylesheet" href="devices.css?v=20260928-hub">
   <script type="importmap">{"imports":{"three":"/viewer/vendor/three.module.js"}}</script>
 </head>
 <body>
@@ -19,6 +20,7 @@
   <div class="workspace-label">数据工作空间 <span>G1</span></div>
   <nav>
     <a href="#library" data-nav="library" aria-label="数据工作台" title="数据工作台"><span class="nav-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="workspace-icons.svg#table"/></svg></span><span class="nav-label">数据工作台</span> <span id="nav-count" class="nav-count">—</span></a>
+    <a href="#devices" data-nav="devices" aria-label="设备管理" title="设备管理"><span class="nav-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="workspace-icons.svg#robot"/></svg></span><span class="nav-label">设备管理</span> <span id="nav-devices-badge" class="nav-count"></span></a>
     <a href="#exports" data-nav="exports" aria-label="导出中心" title="导出中心"><span class="nav-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="workspace-icons.svg#export"/></svg></span><span class="nav-label">导出中心</span></a>
     <a href="#rules" data-nav="rules" aria-label="分级与质检规则" title="分级与质检规则"><span class="nav-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="workspace-icons.svg#sliders"/></svg></span><span class="nav-label">分级与质检规则</span></a>
     <a href="#guide" data-nav="guide" aria-label="使用指南" title="使用指南"><span class="nav-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="workspace-icons.svg#help"/></svg></span><span class="nav-label">使用指南</span></a>
@@ -29,10 +31,11 @@
 <button class="sidebar-scrim" data-action="toggle-sidebar" aria-label="收起导航"></button>
 <div class="app-shell">
   <header class="topbar"><div class="topbar-navigation"><span class="breadcrumb-path"><span class="muted">G1 / 人形移动操作</span><span class="crumb">/</span><span id="breadcrumb">数据工作台</span></span></div><div class="top-status"><span id="service-status"><i class="local-dot"></i> 服务已连接</span><button class="theme-toggle" data-action="theme" id="theme-toggle" aria-label="切换明暗主题">浅色模式</button></div></header>
+  <div id="hub-banner" class="hub-banner" role="status" hidden></div>
   <main id="main"><div class="loading-page"><span class="spinner"></span> 正在读取本地采集记录…</div></main>
 </div>
 <div id="toast" role="status" aria-live="polite"></div>
 <dialog id="dialog"><div id="dialog-content"></div></dialog>
-<script type="module" src="studio.js?v=20260917-robocurate"></script>
+<script type="module" src="studio.js?v=20260928-hub"></script>
 </body>
 </html>

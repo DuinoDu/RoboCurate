@@ -58,6 +58,16 @@ SKIP_DIRS = {
 
 MAX_DEPTH = 8
 MAX_EPISODES = 2000
+# A collection-hub mirror (`<root>/<device>/<device tree>`) grows by ~1000
+# episodes a day and is scanned incrementally, so it is not held to the
+# interactive limit above.
+HUB_MARKER = ".collection-hub.json"
+HUB_MAX_EPISODES = 200_000
+
+
+def hub_mirror(root: Path) -> bool:
+    """True when ``root`` is a collection-hub mirror; the first path part is then the device."""
+    return (root / HUB_MARKER).is_file()
 
 
 def episode_key(path: Path) -> str:
@@ -94,6 +104,7 @@ class EpisodeRef:
     deleted: bool = False
     hand_backend: str = ""
     sidecar: str = ""
+    device: str = ""
     warnings: list[str] = field(default_factory=list)
 
     def to_json(self) -> dict:
@@ -119,6 +130,7 @@ class EpisodeRef:
             "deleted": self.deleted,
             "hand_backend": self.hand_backend,
             "sidecar": self.sidecar,
+            "device": self.device,
             "warnings": self.warnings,
         }
 
@@ -169,6 +181,11 @@ def _ancestor_labels(mcap_path: Path) -> tuple[str, str, str]:
     return session, user, task
 
 
+def _same_label(a: str, b: str) -> bool:
+    norm = lambda v: re.sub(r"[\W_]+", "", v).lower()
+    return norm(a) == norm(b)
+
+
 def _episode_dir_name(mcap_path: Path) -> str:
     for parent in list(mcap_path.parents)[:3]:
         if EPISODE_RE.match(parent.name):
@@ -176,9 +193,16 @@ def _episode_dir_name(mcap_path: Path) -> str:
     return ""
 
 
-def describe(mcap_path: Path, root: Path) -> EpisodeRef:
+def describe(mcap_path: Path, root: Path, device_from_root: bool | None = None) -> EpisodeRef:
     """Everything known about one episode without opening it."""
     ref = EpisodeRef(path=mcap_path, root=root)
+    if device_from_root is None:
+        device_from_root = hub_mirror(root)
+    if device_from_root:
+        try:
+            ref.device = mcap_path.relative_to(root).parts[0]
+        except (ValueError, IndexError):
+            pass
     ref.id = episode_key(mcap_path)
     ref.name = mcap_path.name
     try:
@@ -208,8 +232,16 @@ def describe(mcap_path: Path, root: Path) -> EpisodeRef:
     metas = meta.get("metas") if isinstance(meta.get("metas"), dict) else {}
 
     ref.instruction = str(meta.get("instruction") or "")
-    ref.user = str(meta.get("user_name") or ref.user)
-    ref.task = str(meta.get("task_name") or ref.task)
+    # The directory is created from user/task when the episode starts and never
+    # changes; the sidecar copy can be rewritten later (the PICO server applies a
+    # metadata update meant for the *next* episode to a stopped one). Prefer the
+    # sidecar's spelling only when it names the same thing as the directory.
+    for attr, key, label in (("user", "user_name", "用户"), ("task", "task_name", "任务")):
+        from_path, from_meta = getattr(ref, attr), str(meta.get(key) or "")
+        if from_meta and (not from_path or _same_label(from_path, from_meta)):
+            setattr(ref, attr, from_meta)
+        elif from_meta and from_path:
+            ref.warnings.append(f"sidecar {label}名 {from_meta!r} 与目录 {from_path!r} 不一致，已按目录")
     ref.hand_backend = str(metas.get("hand_backend") or "")
     ref.created_at = str(side.get("created_at") or "")
     ref.stopped_at = str(side.get("stopped_at") or "")
@@ -235,11 +267,14 @@ def describe(mcap_path: Path, root: Path) -> EpisodeRef:
     return ref
 
 
-def scan(root: Path, limit: int = MAX_EPISODES) -> list[EpisodeRef]:
+def scan(root: Path, limit: int | None = None, base: Path | None = None) -> list[EpisodeRef]:
     """Every `.mcap` under `root`, described.
 
     A single file is a catalog of one, so pointing the viewer at one episode
     and pointing it at a season of them are the same operation.
+
+    ``base`` scans only a sub-tree (one synced session) while describing the
+    episodes as members of the larger root they belong to.
     """
     root = root.expanduser()
     if root.is_file():
@@ -248,6 +283,10 @@ def scan(root: Path, limit: int = MAX_EPISODES) -> list[EpisodeRef]:
         raise FileNotFoundError(f"no such file or directory: {root}")
 
     root = root.resolve()
+    owner = (base or root).expanduser().resolve()
+    from_hub = hub_mirror(owner)
+    if limit is None:
+        limit = HUB_MAX_EPISODES if from_hub else MAX_EPISODES
     found: list[EpisodeRef] = []
     stack: list[tuple[Path, int]] = [(root, 0)]
     while stack and len(found) < limit:
@@ -266,7 +305,7 @@ def scan(root: Path, limit: int = MAX_EPISODES) -> list[EpisodeRef]:
                     continue
                 stack.append((entry, depth + 1))
             elif entry.suffix.lower() == ".mcap":
-                found.append(describe(entry, root))
+                found.append(describe(entry, owner, from_hub))
     return sort_episodes(found)
 
 

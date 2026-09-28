@@ -124,3 +124,7 @@ See [contributing](CONTRIBUTING.md), [changes](CHANGELOG.md), [validation scope]
 - [wangyian123](https://github.com/wangyian123)
 
 See the [contributors list](CONTRIBUTORS.md).
+
+## Device management and sync
+
+`collection/` contains collection-hub (storage server) and collection-node (each recording device): device online/recording state, disk warnings on both ends and automatic sync. The **设备管理** page shows and controls them. See [collection/README.md](collection/README.md).
